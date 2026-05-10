@@ -1,48 +1,53 @@
 require('dotenv').config()
 
-const expres= require('express')
-const mongoose =require('mongoose')
+const expres = require('express')
+const mongoose = require('mongoose')
 const cors = require('cors')
 const bycrpt = require('bcrypt')
 
 const app = expres()
 
 app.use(expres.json())
-app.use(cors())
+// const app = express()
+
+app.use(cors({
+    origin: "https://taskmaneger-1845.onrender.com",
+    credentials: true
+}))
 
 
-const url = 'mongodb://localhost:27017/modee4'
+const url = process.env.ATLAS_URI;
 
 mongoose.connect(url)
-.then(()=>{
-    console.log("Db is connecting")
-})
-.catch((err)=>{
-    console.log("db is not connecting",err)
-})
+    .then(() => {
+        console.log("Db is connecting")
+    })
+    .catch((err) => {
+        console.log("db is not connecting", err)
+    })
 
-const userroute =require('./Route/userRoute')
-app.use('/users',userroute)
+const userroute = require('./Route/userRoute')
+app.use('/users', userroute)
 
 
-const cartRoute= require('./Route/cartRoute')
-app.use('/cartUser',cartRoute)
+const cartRoute = require('./Route/cartRoute')
+app.use('/cartUser', cartRoute)
 
 const authRoute = require('./Route/authRoute')
-app.use('/auth',authRoute)
+app.use('/auth', authRoute)
 
 const productRoute = require('./Route/productRoute')
-app.use('/products',productRoute)
+app.use('/products', productRoute)
 
 const taskRoute = require('./Route/taskRoute')
-app.use('/tasks',taskRoute)
+app.use('/tasks', taskRoute)
 
 const activityRoute = require('./Route/activityRoute')
-app.use('/activities',activityRoute)
+app.use('/activities', activityRoute)
 
 
-const port = 5000
+const port = process.env.PORT;
 
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log(`server is running in port ${port}`)
 })

@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken')
-const secretKey = 'wqer4t5yu6idgfhjbvbvnby'
+require('dotenv').config()
+const secretKey = process.env.JWT_SECRET
 
 const authUser = require('../Model/authModel')
-
-
 
 module.exports = async(req,res,next)=>{
        try {
